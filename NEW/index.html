@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Horizon Hotel - Guest Service Request Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="brand">
+      <i class="fa-solid => fa-hotel"></i>
+      <h1>Grand Horizon Hotel</h1>
+    </div>
+    <div class="view-toggle">
+      <button class="toggle-btn active" id="guest-tab-btn" onclick="switchView('guest')">
+        <i class="fa-solid fa-user-astronaut"></i> Guest Portal
+      </button>
+      <button class="toggle-btn" id="admin-tab-btn" onclick="switchView('admin')">
+        <i class="fa-solid fa-user-shield"></i> Department Staff
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main>
+    
+    <!-- GUEST VIEW -->
+    <section id="guest-view" class="view-section active">
+      <div class="grid-2">
+        
+        <!-- Submit Request Form -->
+        <div class="card">
+          <h2 class="card-title">
+            <i class="fa-solid fa-bell-concierge"></i> New Service Request
+          </h2>
+          <form id="requestForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+              <label for="roomNumber">Room Number *</label>
+              <input type="text" id="roomNumber" class="form-control" placeholder="e.g. 304" required>
+            </div>
+
+            <div class="form-group">
+              <label for="guestName">Guest Full Name *</label>
+              <input type="text" id="guestName" class="form-control" placeholder="e.g. Alex Johnson" required>
+            </div>
+
+            <div class="form-group">
+              <label for="department">Target Department *</label>
+              <select id="department" class="form-control" required>
+                <option value="">Select Department...</option>
+                <option value="Housekeeping">Housekeeping (Towels, Cleaning)</option>
+                <option value="Room Service">Room Service (Food & Beverage)</option>
+                <option value="Maintenance">Maintenance (AC, TV, Plumbing)</option>
+                <option value="Front Desk">Front Desk / Concierge (Taxi, Luggage)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="priority">Priority Level *</label>
+              <select id="priority" class="form-control" required>
+                <option value="Normal">Normal Request</option>
+                <option value="Urgent">Urgent / Immediate Attention</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Request Details *</label>
+              <textarea id="description" class="form-control" placeholder="Describe your request in detail..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Submit Request</button>
+          </form>
+        </div>
+
+        <!-- Guest Track Requests -->
+        <div>
+          <div class="card">
+            <h2 class="card-title">
+              <i class="fa-solid fa-clock-rotate-left"></i> Track Your Requests
+            </h2>
+            <div id="guest-requests-list">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DEPARTMENT ADMIN VIEW -->
+    <section id="admin-view" class="view-section">
+      <div class="card">
+        <h2 class="card-title">
+          <i class="fa-solid fa-list-check"></i> Department Operations Dashboard
+        </h2>
+
+        <!-- Department Filter -->
+        <div class="filter-bar">
+          <select id="admin-dept-filter" class="form-control" onchange="renderAdminRequests()">
+            <option value="ALL">All Departments</option>
+            <option value="Housekeeping">Housekeeping</option>
+            <option value="Room Service">Room Service</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Front Desk">Front Desk</option>
+          </select>
+        </div>
+
+        <div id="admin-requests-list">
+          <!-- Dynamically Populated -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Grand Horizon Hotel - Academic CA1 Project Submission</p>
+  </footer>
+
+  <!-- Easy-to-understand JavaScript Script -->
+<script src="script.js"></script>
+</body>
+</html>
