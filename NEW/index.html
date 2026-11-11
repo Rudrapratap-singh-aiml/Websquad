@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOTEL LPU - Guest Service Request Portal</title>
+  <link rel="stylesheet" href="style.css">
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="brand">
+      <i class="fa-solid fa-hotel"></i>
+      <h1>LPU HOTEL</h1>
+    </div>
+    <div id="header-user-area" class="user-nav" style="display: none;">
+      <span id="logged-in-user-label" style="font-size: 0.9rem; font-weight: 500;"></span>
+      <button class="logout-btn" onclick="logoutUser()">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main>
+    
+    <!-- LOGIN VIEW -->
+    <section id="login-view" class="view-section active">
+      <div class="login-card">
+        <h2 class="login-title"><i class="fa-solid fa-user-circle"></i> Portal Login</h2>
+        
+        <div class="role-selector">
+          <button class="role-btn active" id="login-tab-guest" onclick="switchLoginRole('guest')">Guest Login</button>
+          <button class="role-btn" id="login-tab-admin" onclick="switchLoginRole('admin')">Staff Login</button>
+        </div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <!-- Guest Inputs -->
+          <div id="guest-login-fields">
+            <div class="form-group">
+              <label for="loginGuestName">Your Full Name *</label>
+              <input type="text" id="loginGuestName" class="form-control" placeholder="e.g. ABC">
+            </div>
+            <div class="form-group">
+              <label for="loginRoomNumber">Room Number *</label>
+              <input type="text" id="loginRoomNumber" class="form-control" placeholder="e.g. 123">
+            </div>
+          </div>
+
+          <!-- Staff Inputs -->
+          <div id="admin-login-fields" style="display: none;">
+            <div class="form-group">
+              <label for="loginStaffName">Staff Member Name *</label>
+              <input type="text" id="loginStaffName" class="form-control" placeholder="e.g. ABC Supervisor">
+            </div>
+            <div class="form-group">
+              <label for="loginDepartment">Select Department *</label>
+              <select id="loginDepartment" class="form-control">
+                <option value="Housekeeping">Housekeeping Department</option>
+                <option value="Room Service">Room Service Department</option>
+                <option value="Maintenance">Maintenance Department</option>
+                <option value="Front Desk">Front Desk / Concierge</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top: 1rem;">Login to Portal</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- GUEST VIEW -->
+    <section id="guest-view" class="view-section">
+      <div class="grid-2">
+        
+        <!-- Submit Request Form -->
+        <div class="card">
+          <h2 class="card-title">
+            <i class="fa-solid fa-bell-concierge"></i>
+             New Service Request
+          </h2>
+          <form id="requestForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+              <label for="department">Target Department *</label>
+              <select id="department" class="form-control" required>
+                <option value="">Select Department...</option>
+                <option value="Housekeeping">Housekeeping (Towels, Cleaning)</option>
+                <option value="Room Service">Room Service (Food & Beverage)</option>
+                <option value="Maintenance">Maintenance (AC, TV, Plumbing)</option>
+                <option value="Front Desk">Front Desk / Concierge (Taxi, Luggage)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="priority">Priority Level *</label>
+              <select id="priority" class="form-control" required>
+                <option value="Normal">Normal Request</option>
+                <option value="Urgent">Urgent / Immediate Attention</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Request Details *</label>
+              <textarea id="description" class="form-control" placeholder="Describe your request in detail..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Submit Request</button>
+          </form>
+        </div>
+
+        <!-- Guest Track Requests -->
+        <div>
+          <div class="card">
+            <h2 class="card-title">
+              <i class="fa-solid fa-clock-rotate-left"></i> Track Your Requests
+            </h2>
+            <div id="guest-requests-list">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DEPARTMENT ADMIN VIEW -->
+    <section id="admin-view" class="view-section">
+      <div class="card">
+        <h2 class="card-title" id="admin-dashboard-title">
+          <i class="fa-solid fa-list-check"></i> Department Operations Dashboard
+        </h2>
+
+        <!-- Department Filter -->
+        <div class="filter-bar">
+          <select id="admin-dept-filter" class="form-control" onchange="renderAdminRequests()">
+            <option value="ALL">All Departments</option>
+            <option value="Housekeeping">Housekeeping</option>
+            <option value="Room Service">Room Service</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Front Desk">Front Desk</option>
+          </select>
+        </div>
+
+        <div id="admin-requests-list">
+          <!-- Dynamically Populated -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Grand Horizon Hotel - Academic CA1 Project Submission</p>
+  </footer>
+
+  <!-- JavaScript Script with Added Validation -->
+ <script src="script.js"></script>
+</body>
+</html>
