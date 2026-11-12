@@ -1,218 +1,385 @@
-    let currentUser = null; 
-    let requests = [
-      {
-        id: 101,
-        room: "201",
-        name: "Sarah Parker",
-        department: "Housekeeping",
-        priority: "Normal",
-        description: "Please send 2 extra pillows and a set of clean bath towels.",
-        status: "Pending",
-        time: "10:15 AM"
-      },
-      {
-        id: 102,
-        room: "405",
-        name: "David Smith",
-        department: "Maintenance",
-        priority: "Urgent",
-        description: "Air conditioner is leaking water on the desk.",
-        status: "In Progress",
-        time: "10:45 AM"
-      }
-    ];
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #1e40af;
+      --accent: #d97706;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warning: #ca8a04;
+      --danger: #dc2626;
+    }
 
-    let activeLoginRole = 'guest';
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    function switchLoginRole(role) {
-      activeLoginRole = role;
-      document.getElementById('login-tab-guest').classList.remove('active');
-      document.getElementById('login-tab-admin').classList.remove('active');
-      
-      if (role === 'guest') {
-        document.getElementById('login-tab-guest').classList.add('active');
-        document.getElementById('guest-login-fields').style.display = 'block';
-        document.getElementById('admin-login-fields').style.display = 'none';
-      } else {
-        document.getElementById('login-tab-admin').classList.add('active');
-        document.getElementById('guest-login-fields').style.display = 'none';
-        document.getElementById('admin-login-fields').style.display = 'block';
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand i {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .brand h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .user-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logout-btn {
+      background: rgba(220, 38, 38, 0.2);
+      border: 1px solid #ef4444;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    /* Login Screen Specific Styles */
+    #login-view.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+      border: 1px solid var(--border);
+    }
+
+    .login-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .role-selector {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--bg-light);
+      padding: 0.3rem;
+      border-radius: 8px;
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 0.6rem;
+      border: none;
+      background: transparent;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Password Wrapper for Show/Hide Eye Icon */
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper .form-control {
+      padding-right: 2.5rem;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
+    .helper-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* Layout Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 868px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
       }
     }
 
-    // UPDATED: Added Validation Check in handleLogin
-    function handleLogin(event) {
-      event.preventDefault();
-
-      if (activeLoginRole === 'guest') {
-        const name = document.getElementById('loginGuestName').value.trim();
-        const room = document.getElementById('loginRoomNumber').value.trim();
-        
-        // Check if fields are empty
-        if (!name || !room) {
-          alert("Please fill in both your Full Name and Room Number to login!");
-          return;
-        }
-
-        currentUser = { type: 'guest', name: name, room: room };
-        
-        document.getElementById('login-view').classList.remove('active');
-        document.getElementById('guest-view').classList.add('active');
-        document.getElementById('header-user-area').style.display = 'flex';
-        document.getElementById('logged-in-user-label').innerHTML = `<i class="fa-solid fa-user"></i> Guest: ${name} (Room ${room})`;
-        
-        renderGuestRequests();
-      } else {
-        const staffName = document.getElementById('loginStaffName').value.trim();
-        const department = document.getElementById('loginDepartment').value;
-        
-        // Check if staff name is empty
-        if (!staffName) {
-          alert("Please enter the Staff Member Name to login!");
-          return;
-        }
-
-        currentUser = { type: 'admin', name: staffName, department: department };
-
-        document.getElementById('login-view').classList.remove('active');
-        document.getElementById('admin-view').classList.add('active');
-        document.getElementById('header-user-area').style.display = 'flex';
-        document.getElementById('logged-in-user-label').innerHTML = `<i class="fa-solid fa-user-shield"></i> Staff: ${staffName} (${department})`;
-        
-        document.getElementById('admin-dept-filter').value = department;
-        renderAdminRequests();
-      }
-
-      document.getElementById('loginForm').reset();
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
     }
 
-    function logoutUser() {
-      currentUser = null;
-      document.getElementById('header-user-area').style.display = 'none';
-      document.getElementById('guest-view').classList.remove('active');
-      document.getElementById('admin-view').classList.remove('active');
-      document.getElementById('login-view').classList.add('active');
-      switchLoginRole('guest');
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--bg-light);
+      padding-bottom: 0.75rem;
     }
 
-    function handleFormSubmit(event) {
-      event.preventDefault();
-
-      const department = document.getElementById('department').value;
-      const priority = document.getElementById('priority').value;
-      const description = document.getElementById('description').value;
-
-      const newRequest = {
-        id: Date.now().toString().slice(-4),
-        room: currentUser.room,
-        name: currentUser.name,
-        department: department,
-        priority: priority,
-        description: description,
-        status: "Pending",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-
-      requests.unshift(newRequest);
-      document.getElementById('requestForm').reset();
-      renderGuestRequests();
-      renderAdminRequests();
-
-      alert("Service Request Submitted Successfully!");
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.25rem;
     }
 
-    function renderGuestRequests() {
-      const container = document.getElementById('guest-requests-list');
-      const myRequests = requests.filter(req => req.room === currentUser.room);
-
-      if (myRequests.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-inbox"></i>
-            <p>You have not submitted any service requests yet.</p>
-          </div>`;
-        return;
-      }
-
-      let html = '';
-      myRequests.forEach(req => {
-        let badgeClass = 'badge-pending';
-        if (req.status === 'In Progress') badgeClass = 'badge-progress';
-        if (req.status === 'Completed') badgeClass = 'badge-completed';
-
-        html += `
-          <div class="request-item">
-            <div class="request-header">
-              <span class="request-dept"><i class="fa-solid fa-concierge-bell"></i> ${req.department}</span>
-              <span class="badge ${badgeClass}">${req.status}</span>
-            </div>
-            <div class="request-meta">Room: <strong>${req.room}</strong> | Requested at: ${req.time}</div>
-            <div class="request-desc">${req.description}</div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--text-dark);
     }
 
-    function renderAdminRequests() {
-      const container = document.getElementById('admin-requests-list');
-      const selectedDept = document.getElementById('admin-dept-filter').value;
-
-      const filteredRequests = requests.filter(req => {
-        return selectedDept === 'ALL' || req.department === selectedDept;
-      });
-
-      if (filteredRequests.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <p>No requests found for this department filter.</p>
-          </div>`;
-        return;
-      }
-
-      let html = '';
-      filteredRequests.forEach(req => {
-        let badgeClass = 'badge-pending';
-        if (req.status === 'In Progress') badgeClass = 'badge-progress';
-        if (req.status === 'Completed') badgeClass = 'badge-completed';
-
-        html += `
-          <div class="request-item">
-            <div class="request-header">
-              <span class="request-dept">
-                <i class="fa-solid fa-door-closed"></i> Room ${req.room} (${req.name})
-              </span>
-              <span class="badge ${badgeClass}">${req.status}</span>
-            </div>
-            <div class="request-meta">
-              Dept: <strong>${req.department}</strong> | Priority: <strong>${req.priority}</strong> | Time: ${req.time}
-            </div>
-            <div class="request-desc">${req.description}</div>
-            <div class="admin-controls">
-              <button class="btn-sm" onclick="updateStatus('${req.id}', 'In Progress')">
-                <i class="fa-solid fa-spinner"></i> Mark In-Progress
-              </button>
-              <button class="btn-sm" onclick="updateStatus('${req.id}', 'Completed')">
-                <i class="fa-solid fa-check"></i> Mark Completed
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      background-color: white;
     }
 
-    function updateStatus(id, newStatus) {
-      const target = requests.find(req => req.id.toString() === id.toString());
-      if (target) {
-        target.status = newStatus;
-        if (currentUser.type === 'guest') {
-          renderGuestRequests();
-        } else {
-          renderAdminRequests();
-        }
-      }
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 0.85rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Status Badges */
+    .badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .badge-pending {
+      background-color: #fef9c3;
+      color: var(--warning);
+    }
+
+    .badge-progress {
+      background-color: #dbeafe;
+      color: var(--primary);
+    }
+
+    .badge-completed {
+      background-color: #dcfce7;
+      color: var(--success);
+    }
+
+    /* Request Items */
+    .request-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .request-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.08);
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .request-dept {
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .request-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .request-desc {
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Admin Specific Styling */
+    .admin-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-light);
+      cursor: pointer;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .btn-sm:hover {
+      background: #e2e8f0;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+
+    footer {
+      background-color: white;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: auto;
     }
