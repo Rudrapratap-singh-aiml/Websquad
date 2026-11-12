@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HOTEL LPU - Guest Service Request Portal</title>
+  <title>LPU Hotel - Guest Service Request Portal</title>
   <link rel="stylesheet" href="style.css">
-  </style>
 </head>
 <body>
 
@@ -13,7 +12,7 @@
   <header>
     <div class="brand">
       <i class="fa-solid fa-hotel"></i>
-      <h1>LPU HOTEL</h1>
+      <h1>LPU Hotel</h1>
     </div>
     <div id="header-user-area" class="user-nav" style="display: none;">
       <span id="logged-in-user-label" style="font-size: 0.9rem; font-weight: 500;"></span>
@@ -32,41 +31,70 @@
         <h2 class="login-title"><i class="fa-solid fa-user-circle"></i> Portal Login</h2>
         
         <div class="role-selector">
-          <button class="role-btn active" id="login-tab-guest" onclick="switchLoginRole('guest')">Guest Login</button>
-          <button class="role-btn" id="login-tab-admin" onclick="switchLoginRole('admin')">Staff Login</button>
+          <button type="button" class="role-btn active" id="login-tab-guest" onclick="switchLoginRole('guest')">Guest Login</button>
+          <button type="button" class="role-btn" id="login-tab-admin" onclick="switchLoginRole('admin')">Staff Login</button>
         </div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
-          <!-- Guest Inputs -->
-          <div id="guest-login-fields">
-            <div class="form-group">
-              <label for="loginGuestName">Your Full Name *</label>
-              <input type="text" id="loginGuestName" class="form-control" placeholder="e.g. Rudra pratap singh Chauhan">
-            </div>
-            <div class="form-group">
-              <label for="loginRoomNumber">Room Number *</label>
-              <input type="text" id="loginRoomNumber" class="form-control" placeholder="e.g. 123">
-            </div>
+        <!-- 1. GUEST LOGIN FORM -->
+        <form id="guestLoginForm" onsubmit="handleGuestLogin(event)">
+          <div class="form-group">
+            <label for="loginGuestName">Your Full Name *</label>
+            <input type="text" id="loginGuestName" class="form-control" placeholder="e.g. ABC" required>
           </div>
 
-          <!-- Staff Inputs -->
-          <div id="admin-login-fields" style="display: none;">
-            <div class="form-group">
-              <label for="loginStaffName">Staff Member Name *</label>
-              <input type="text" id="loginStaffName" class="form-control" placeholder="e.g. ABC Supervisor">
-            </div>
-            <div class="form-group">
-              <label for="loginDepartment">Select Department *</label>
-              <select id="loginDepartment" class="form-control">
-                <option value="Housekeeping">Housekeeping Department</option>
-                <option value="Room Service">Room Service Department</option>
-                <option value="Maintenance">Maintenance Department</option>
-                <option value="Front Desk">Front Desk / Concierge</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="loginRoomNumber">Room Number *</label>
+            <input type="text" id="loginRoomNumber" class="form-control" placeholder="e.g. 007" required>
           </div>
 
-          <button type="submit" class="btn" style="margin-top: 1rem;">Login to Portal</button>
+          <div class="form-group">
+            <label for="guestPassword">Room Access Password / PIN *</label>
+            <div class="password-wrapper">
+              <input type="password" id="guestPassword" class="form-control" placeholder="Enter your room PIN" required>
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('guestPassword', this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <p class="helper-hint">Demo hint: Enter any 4+ character password (e.g., 1234)</p>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top: 0.5rem;">Login as Guest</button>
+        </form>
+
+        <!-- 2. STAFF LOGIN FORM -->
+        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: none;">
+          <div class="form-group">
+            <label for="loginStaffMember">Select Staff Member *</label>
+            <select id="loginStaffMember" class="form-control" onchange="autoSelectDepartment()" required>
+              <option value="">-- Choose Staff Member --</option>
+              <option value="Rudra Pratap Singh">Rudra Pratap Singh</option>
+              <option value="Suhaib Wani">Suhaib Wani</option>
+              <option value="Vansh Dhingra">Vansh Dhingra</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="loginDepartment">Assigned Department *</label>
+            <select id="loginDepartment" class="form-control" required>
+              <option value="Housekeeping">Housekeeping Department</option>
+              <option value="Room Service">Room Service Department</option>
+              <option value="Maintenance">Maintenance Department</option>
+              <option value="Front Desk">Front Desk / Concierge</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="staffPassword">Staff Portal Password *</label>
+            <div class="password-wrapper">
+              <input type="password" id="staffPassword" class="form-control" placeholder="Enter staff password" required>
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('staffPassword', this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <p class="helper-hint">Demo hint: Enter any password (e.g., admin123)</p>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top: 0.5rem;">Login as Staff</button>
         </form>
       </div>
     </section>
@@ -78,8 +106,7 @@
         <!-- Submit Request Form -->
         <div class="card">
           <h2 class="card-title">
-            <i class="fa-solid fa-bell-concierge"></i>
-             New Service Request
+            <i class="fa-solid fa-bell-concierge"></i> New Service Request
           </h2>
           <form id="requestForm" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
@@ -152,10 +179,8 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Grand Horizon Hotel - Academic CA1 Project Submission</p>
+    <p>&copy; 2026 LPU Hotel - Guest Service Portal</p>
   </footer>
-
-  <!-- JavaScript Script with Added Validation -->
- <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
