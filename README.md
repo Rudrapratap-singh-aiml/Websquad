@@ -1,6 +1,6 @@
-🏨🎓 **Introducing My University Project – LPU Hotel: Hotel Guest Service Request Portal!**
+🏨🎓 **Introducing Our University Project – LPU Hotel: Hotel Guest Service Request Portal!**
 
-I'm excited to share my university project, developed as part of my academic journey at **Lovely Professional University (LPU)**! 🚀
+We are excited to present our university project, developed as part of our academic journey at **Lovely Professional University (LPU)**! 🚀
 
 💡 **About the Project:**
 
@@ -39,6 +39,14 @@ LPU Hotel is a web-based Hotel Guest Service Request Portal designed to simplify
 - 🐙 GitHub
 - 🚀 GitHub Pages
 
+👥 **PROJECT TEAM**
+
+👑 **Team Leader:** Rudra Pratap Singh Chauhan
+
+🤝 **Team Members:**
+- Suhaib Rashid Wani
+- Vansh Dhingra
+
 🎯 **Project Objective:**
 
 To demonstrate how web technologies can be used to build an interactive hotel service management platform that improves communication between guests and hotel staff.
@@ -51,8 +59,8 @@ https://github.com/Rudrapratap-singh-aiml/Websquad
 
 🎓 **University:** Lovely Professional University (LPU)
 
-This project has been a great learning experience, helping me improve my web development skills and understand the process of deploying a website.
+This project has been a great teamwork and learning experience, helping us improve our web development skills, problem-solving abilities and understanding of website deployment.
 
-💻 Keep Learning. Keep Building. Keep Growing! 🚀
+💻 **Together We Learn, Together We Build!** 🚀
 
-#LPU #LovelyProfessionalUniversity #UniversityProject #WebDevelopment #HTML #CSS #JavaScript #GitHub #GitHubPages #FrontendDevelopment #StudentDeveloper #CodingJourney
+#LPU #LovelyProfessionalUniversity #UniversityProject #Teamwork #WebDevelopment #HTML #CSS #JavaScript #GitHub #GitHubPages #FrontendDevelopment #StudentProject #CodingJourney
