@@ -1,4 +1,4 @@
-   :root {
+    :root {
       --primary: #1e3a8a;
       --primary-hover: #1e40af;
       --accent: #d97706;
@@ -119,6 +119,7 @@
       color: var(--primary);
       font-size: 1.5rem;
     }
+
     .role-selector {
       display: flex;
       gap: 0.5rem;
@@ -144,6 +145,37 @@
       background: white;
       color: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Password Wrapper for Show/Hide Eye Icon */
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper .form-control {
+      padding-right: 2.5rem;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
+    .helper-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
     }
 
     /* Layout Grids */
@@ -202,6 +234,7 @@
       font-size: 0.95rem;
       outline: none;
       transition: border-color 0.2s;
+      background-color: white;
     }
 
     .form-control:focus {
